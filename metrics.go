@@ -2,10 +2,10 @@ package grpcrequest
 
 import "time"
 
-// AddRequestMetricFunc - функция метрики о входящем запросе
+// RequestCallback - request callback function
 type RequestCallback func(method string)
 
-// AddResponseMetricFunc - функция метрики об ответе на запрос
+// ResponseCallback - response callback function
 type ResponseCallback func(method string, result string, d time.Duration)
 
 var requestCallback RequestCallback

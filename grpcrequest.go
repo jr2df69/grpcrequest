@@ -100,6 +100,7 @@ func (r *GRPCRequest) addRequest() {
 	addGRPCRequestMetric(r.method)
 }
 
+// ID - returns request's ID
 func (r *GRPCRequest) ID() string {
 	return r.requestID
 }
