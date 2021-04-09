@@ -11,22 +11,22 @@ type ResponseCallback func(method string, result string, d time.Duration)
 var requestCallback RequestCallback
 var responseCallback ResponseCallback
 
-func addGRPCRequestMetric(method string) {
+func callRequestCallback(method string) {
 	if requestCallback != nil {
 		requestCallback(method)
 		return
 	}
-	dummyAddRequest(method)
+	dummyRequestCallback(method)
 }
 
-func addGRPCResponseMetric(method, result string, d time.Duration) {
+func callResponseCallback(method, result string, d time.Duration) {
 	if responseCallback != nil {
 		responseCallback(method, result, d)
 		return
 	}
-	dummyAddResponse(method, result, d)
+	dummyResponseCallback(method, result, d)
 }
 
-func dummyAddRequest(_ string) {}
+func dummyRequestCallback(_ string) {}
 
-func dummyAddResponse(_, _ string, _ time.Duration) {}
+func dummyResponseCallback(_, _ string, _ time.Duration) {}

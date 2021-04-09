@@ -32,8 +32,8 @@ func Setup(
 	reqCallback RequestCallback,
 	respCallback ResponseCallback,
 ) {
-	reqCallback = requestCallback
-	respCallback = responseCallback
+	requestCallback = reqCallback
+	responseCallback = respCallback
 }
 
 // New - creates new request
@@ -97,7 +97,7 @@ func (r *GRPCRequest) Finish(result, message string, args ...interface{}) {
 
 func (r *GRPCRequest) addRequest() {
 	r.logger.Debug("Received new GRPC request")
-	addGRPCRequestMetric(r.method)
+	callRequestCallback(r.method)
 }
 
 // ID - returns request's ID
@@ -117,5 +117,5 @@ func (r *GRPCRequest) addResponse(result, message string) {
 		msgLogger.Info("GRPC request finished")
 	}
 
-	addGRPCResponseMetric(r.method, result, time.Since(r.bt))
+	callResponseCallback(r.method, result, time.Since(r.bt))
 }
