@@ -31,6 +31,10 @@ func Setup(
 	reqCallback RequestCallback,
 	respCallback ResponseCallback,
 ) {
+	if l == nil {
+		l = logrus.StandardLogger()
+	}
+	logger = l
 	requestCallback = reqCallback
 	responseCallback = respCallback
 }
