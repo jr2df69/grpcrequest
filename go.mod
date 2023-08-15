@@ -3,7 +3,7 @@ module github.com/jr2df69/grpcrequest
 go 1.13
 
 require (
-	github.com/satori/go.uuid v1.2.0
-	github.com/sirupsen/logrus v1.5.0
-	google.golang.org/grpc v1.34.1
+	github.com/gofrs/uuid v4.4.0+incompatible
+	github.com/sirupsen/logrus v1.9.3
+	google.golang.org/grpc v1.57.0
 )

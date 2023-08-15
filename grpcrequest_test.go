@@ -37,3 +37,12 @@ func TestRequestNoAdditional(t *testing.T) {
 	req.FinishNotFound()
 	req.Finish("some_result", "got some result")
 }
+
+func TestRequestWithRequestID(t *testing.T) {
+	Setup(logrus.StandardLogger(), nil, nil)
+	req := NewWithRequestID(context.Background(), nil, "test_request_id")
+	req.FinishOK()
+	req.FinishError("error: %s", "err")
+	req.FinishNotFound()
+	req.Finish("some_result", "got some result")
+}

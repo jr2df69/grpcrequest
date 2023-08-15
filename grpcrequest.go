@@ -5,13 +5,12 @@ import (
 	"fmt"
 	"time"
 
-	uuid "github.com/satori/go.uuid"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/peer"
 )
 
-//GRPCRequest - grpc request wrapper
+// GRPCRequest - grpc request wrapper
 type GRPCRequest struct {
 	logger *logrus.Entry
 	method string
@@ -38,16 +37,25 @@ func Setup(
 
 // New - creates new request
 func New(grpcContext context.Context, additionalLogInfo map[string]interface{}) *GRPCRequest {
+	// This is not fatal error, so we can ignore it
+	requestID, _ := generateUUID()
+	return newRequest(grpcContext, additionalLogInfo, requestID)
+}
+
+func NewWithRequestID(grpcContext context.Context, additionalLogInfo map[string]interface{}, requestID string) *GRPCRequest {
+	return newRequest(grpcContext, additionalLogInfo, requestID)
+}
+
+func newRequest(grpcContext context.Context, additionalLogInfo map[string]interface{}, requestID string) *GRPCRequest {
 	r := &GRPCRequest{
-		method: "unknown method",
-		bt:     time.Now(),
+		method:    "unknown method",
+		bt:        time.Now(),
+		requestID: requestID,
 	}
 	if len(additionalLogInfo) == 0 {
 		additionalLogInfo = make(map[string]interface{})
 	}
-	r.requestID = uuid.NewV4().String()
 	additionalLogInfo["request_id"] = r.requestID
-
 	if grpcContext != nil {
 		p, ok := peer.FromContext(grpcContext)
 		if p != nil && ok {
